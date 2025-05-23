@@ -30,7 +30,7 @@ export default function BlurryBlob({
 
         if (isMobile) {
             // Subtle ambient animation
-            let start = performance.now();
+            const start = performance.now();
 
             const animate = (time: number) => {
                 const progress = (time - start) / 1000;
@@ -47,9 +47,8 @@ export default function BlurryBlob({
                 if (blob2Ref.current) {
                     blob2Ref.current.style.transform = `translate(${x2}px, ${y2}px)`;
                 }
-
-                requestAnimationFrame(animate);
             };
+            requestAnimationFrame(animate);
             const handleMouseMove = (e: MouseEvent) => {
                 const { clientX, clientY } = e;
                 const centerX = window.innerWidth / 2;

@@ -18,13 +18,13 @@ export function ModeToggle() {
   }, [theme, setTheme])
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+    <Button variant="ghost" size="sm" onClick={toggleTheme} aria-label="Toggle theme" className="relative pb-1 max-h-fit hover:bg-none">
       <Sun
-        className={`h-[1.2rem] w-[1.2rem] transition-all ${theme === "light" ? "rotate-0 scale-100" : "rotate-90 scale-0"
+        className={`h-[0.1rem] w-[0.1rem] transition-all ${theme != "dark" ? "rotate-0 scale-100" : "rotate-90 scale-0"
           }`}
       />
       <Moon
-        className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${theme === "dark" ? "rotate-0 scale-100" : "rotate-90 scale-0"
+        className={`absolute h-[0.1rem] w-[0.1rem] transition-all ${theme === "dark" ? "rotate-0 scale-100" : "rotate-90 scale-0"
           }`}
       />
       {/* Optional: show some indicator for system */}
