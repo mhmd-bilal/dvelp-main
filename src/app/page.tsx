@@ -64,7 +64,7 @@ export default function Home() {
       </>
 
       {/* Main Content */}
-      <main className="flex z-10 h-full w-full">
+      <main className="flex z-10 h-full w-full custom-scrollbar">
         <motion.div
           initial={{ opacity: 0, x: 0, y: 200 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
