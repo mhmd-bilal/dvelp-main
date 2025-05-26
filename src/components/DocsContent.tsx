@@ -4,7 +4,6 @@ import React from "react";
 import { componentsData } from "@/data/components";
 import Code from "./ui/Code";
 import dynamic from "next/dynamic";
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 type DocsContentProps = {
   selectedComponent: string;
@@ -37,7 +36,7 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
   // Handle special sections
   if (selectedComponent === "introduction") {
     return (
-      <ScrollArea className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
+      <section className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
         <div className="flex flex-col gap-8">
           <div>
             <h2 className="text-3xl font-bold mb-4">About dvelp</h2>
@@ -56,13 +55,13 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             </p>
           </div>
         </div>
-      </ScrollArea>
+      </section>
     );
   }
 
   if (selectedComponent === "installation") {
     return (
-     <ScrollArea className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
+      <section className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
         <div className="flex flex-col gap-8">
           <div>
             <h2 className="text-3xl font-bold mb-4">Installation</h2>
@@ -93,7 +92,7 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             </div>
           </div>
         </div>
-      </ScrollArea>
+      </section>
     );
   }
 
@@ -101,12 +100,12 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
 
   if (!component) {
     return (
-      <ScrollArea className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
+      <section className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8">
         <h2 className="text-3xl font-bold mb-4">Select a Component</h2>
         <p className="text-muted-foreground">
           Choose a component from the sidebar to view its documentation.
         </p>
-      </ScrollArea>
+      </section>
     );
   }
 
