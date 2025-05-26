@@ -60,7 +60,7 @@ export default function DocsSidebar({ selected, onSelect }: DocsSidebarProps) {
                   : "text-muted-foreground hover:text-foreground border-accent"
                   
               } ${
-                comp.active ? "border-accent cursor-pointer ": "text-muted-foreground/50 border-accent/20 cursor-not-allowed"
+                comp.active ? "border-accent cursor-pointer hover:border-primary/10": "text-muted-foreground/50 hover:text-muted-foreground/50 border-accent/20 cursor-not-allowed"
               }`}
                 >
                   <span

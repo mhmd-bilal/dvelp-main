@@ -45,7 +45,7 @@ export default function Code({
     >
       <button
         onClick={copyToClipboard}
-        className="absolute right-2 top-2 p-2 rounded-md bg-black/20 hover:bg-black/30 transition-colors z-10"
+        className="absolute right-2 top-2 p-2 rounded-md bg-black/20 hover:bg-black/30 transition-colors z-10 cursor-pointer"
         aria-label="Copy code"
       >
         {copied ? (
