@@ -175,7 +175,7 @@ export default function BlurryBlobBackground({
   ];
 
   return (
-    <div className={cn("fixed inset-0 z-10  overflow-hidden ", className)}>
+    <div className={cn("fixed inset-0 z-10", className)}>
       {blobConfigs.map((config, index) => (
         <div
           key={index}

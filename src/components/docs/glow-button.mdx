@@ -165,10 +165,10 @@ export function GlowButtonPreview() {
   return (
     <div className="flex flex-row gap-4 items-center justify-center p-8">
       <GlowButton variant="glow">Glow Button</GlowButton>
-      <GlowButton variant="outlineGlow">Outline Glow Button</GlowButton>
-      <GlowButton variant="successGlow">Outline Glow Button</GlowButton>
-      <GlowButton variant="destructiveGlow">Outline Glow Button</GlowButton>
-      <GlowButton variant="linkGlow">Outline Glow Button</GlowButton>
+      <GlowButton variant="outlineGlow">Outline</GlowButton>
+      <GlowButton variant="successGlow">Success</GlowButton>
+      <GlowButton variant="destructiveGlow">Destructive</GlowButton>
+      <GlowButton variant="linkGlow">Link</GlowButton>
     </div>
   );
 }

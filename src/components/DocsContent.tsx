@@ -26,7 +26,7 @@ const componentPreviews = {
       default: mod.HalftonePreview,
     }))
   ),
-  
+
   "custom-cursor": dynamic(() => import("./docs/blurry-blobs")),
   "scroll-select": dynamic(() => import("./docs/blurry-blobs")),
   "sentence-form": dynamic(() => import("./docs/blurry-blobs")),
@@ -138,20 +138,24 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             Implement
           </h3>
           <div className="flex flex-col gap-4 p-6">
+            {/* Code Example */}
+            <div>
+              <h4 className="text-sm font-medium mb-2 text-muted-foreground">
+                Copy Code into your components folder
+              </h4>
+              <Code code={component.code?.content} />
+            </div>
+
             {/* Import Statement */}
             <div>
               <h4 className="text-sm font-medium mb-2 text-muted-foreground">
                 Import
               </h4>
               <Code code={importStatement} />
-            </div>
-
-            {/* Usage Example */}
-            <div>
-              <h4 className="text-sm font-medium mb-2 text-muted-foreground">
-                Code
+              <h4 className="text-sm font-medium mb-2 mt-4 text-muted-foreground">
+                Usage
               </h4>
-              <Code code={component.code?.content} />
+              <Code code={component.usage?.content} />
             </div>
           </div>
         </div>

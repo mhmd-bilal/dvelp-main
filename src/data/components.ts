@@ -4,7 +4,7 @@ import glowButton from "../components/docs/glow-button.mdx"
 
 export interface CodeSnippet {
   language: string; // e.g., 'tsx', 'js', 'html'
-  content: unknown; // TODO: Replace with proper MDX type
+  content: string | unknown; // TODO: Replace with proper MDX type
 }
 
 export interface ComponentDoc {
@@ -29,6 +29,15 @@ export const componentsData: ComponentDoc[] = [
       language: 'tsx',
       content: blurryBlobTSX,
     },
+    usage: {
+      language: 'tsx',
+      content: `<BlurryBlobBackground
+        className="custom-blob-bg"
+        colors={['#ff6f61', '#ffb347', '#6b5b95']} // warm, playful palette
+        enableMouseInteraction={true}
+        animationSpeed={2} // twice as fast as default
+      />`
+    },
   },
   {
     id: 'halftone-bg',
@@ -40,6 +49,18 @@ export const componentsData: ComponentDoc[] = [
       language: 'tsx',
       content: halftoneBackground,
     },
+    usage: {
+      language: 'tsx',
+      content: `<HalftoneBackground
+        bgColor="#0f172a"
+        dotsColor="#38bdf8"
+        textColor="#ffffff"
+        dotSpacing={30}
+        dotRadius={2}
+        influenceRadius={100}
+        maxScale={3}
+      />`
+    },
   },
   {
     id: 'glow-button',
@@ -50,7 +71,16 @@ export const componentsData: ComponentDoc[] = [
     code: {
       language: 'tsx',
       content: glowButton,
+    },    
+    usage: {
+      language: 'tsx',
+      content: `<GlowButton variant="glow">Glow Button</GlowButton>
+      <GlowButton variant="outlineGlow">Outline</GlowButton>
+      <GlowButton variant="successGlow">Success</GlowButton>
+      <GlowButton variant="destructiveGlow">Destructive</GlowButton>
+      <GlowButton variant="linkGlow">Link</GlowButton>`
     },
+
   },
   {
     id: 'custom-cursor',
