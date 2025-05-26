@@ -31,7 +31,7 @@ export default function Code({
   };
 
   // Check if code has more than 5 lines
-  const codeLines = String(code).split('\n');
+  const codeLines = String(code).split("\n");
   const hasMoreThan5Lines = codeLines.length > 5;
 
   return (
@@ -72,12 +72,12 @@ export default function Code({
 
       <div className="relative overflow-hidden">
         <motion.div
-          animate={{ 
-            height: isExpanded || !hasMoreThan5Lines ? "auto" : "8rem"
+          animate={{
+            height: isExpanded || !hasMoreThan5Lines ? "auto" : "8rem",
           }}
-          transition={{ 
-            duration: 0.4, 
-            ease: [0.4, 0.0, 0.2, 1]
+          transition={{
+            duration: 0.4,
+            ease: [0.4, 0.0, 0.2, 1],
           }}
           className="overflow-hidden"
         >
@@ -95,7 +95,7 @@ export default function Code({
               wordBreak: "break-word",
             }}
           >
-            {code}
+            {typeof code === "string" ? code : JSON.stringify(code)}
           </SyntaxHighlighter>
         </motion.div>
 
@@ -109,7 +109,8 @@ export default function Code({
               transition={{ duration: 0.3 }}
               className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
               style={{
-                background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)"
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%)",
               }}
             />
           )}
@@ -122,8 +123,8 @@ export default function Code({
             className="absolute bottom-2 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-md bg-black/40 hover:bg-black/60 border border-gray-600/50 text-gray-300 text-sm font-medium transition-all duration-200 flex items-center gap-1 backdrop-blur-sm z-20"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            animate={{ 
-              y: isExpanded ? 0 : -8 
+            animate={{
+              y: isExpanded ? 0 : -8,
             }}
             transition={{ duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }}
           >
