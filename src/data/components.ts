@@ -1,58 +1,76 @@
+import blurryBlobTSX from "../components/docs/blurry-blobs.mdx"
+import halftoneBackground from "../components/docs/halftone-bg.mdx";
+import glowButton from "../components/docs/glow-button.mdx"
+
+export interface CodeSnippet {
+  language: string; // e.g., 'tsx', 'js', 'html'
+  content: unknown; // TODO: Replace with proper MDX type
+}
+
 export interface ComponentDoc {
   id: string;
   name: string;
   description: string;
-  code: string;
-  preview?: React.ComponentType;
-  category: 'ui' | 'animation' | 'layout';
+  category: 'backgrounds' | 'buttons' | 'cursor interactive' | 'inputs' | 'code';
+  usage?: CodeSnippet;
+  code?: CodeSnippet;
+  active:boolean
 }
+export const categories = ['backgrounds', 'buttons', 'cursor interactive', 'inputs'];
 
 export const componentsData: ComponentDoc[] = [
   {
     id: 'blurry-blobs',
-    name: 'BlurryBlobs',
+    name: 'Blurry Blobs',
     description: 'A beautiful animated background component that creates organic, flowing blob shapes with customizable colors and opacity.',
-    code: `// Example usage
-<BlurryBlob
-  className="absolute top-10 left-10"
-  firstBlobColor="bg-yellow-400"
-  secondBlobColor="bg-red-200"
-/>`,
-    category: 'animation'
+    category: 'backgrounds',
+    active:true,
+    code: {
+      language: 'tsx',
+      content: blurryBlobTSX,
+    },
+  },
+  {
+    id: 'halftone-bg',
+    name: 'Halftone Background',
+    description: 'Animated halftone background with smooth, dynamic dots that react to mouse movement. Customizable colors and opacity.',
+    category: 'backgrounds',
+    active:true,
+    code: {
+      language: 'tsx',
+      content: halftoneBackground,
+    },
+  },
+  {
+    id: 'glow-button',
+    name: 'Glow Button',
+    description: 'A customizable button component with a beautiful glow effect.',
+    category: 'buttons',
+    active:true,
+    code: {
+      language: 'tsx',
+      content: glowButton,
+    },
   },
   {
     id: 'custom-cursor',
-    name: 'CustomCursor',
+    name: 'Custom Cursor',
     description: 'A customizable cursor component that replaces the default cursor with an interactive, animated version.',
-    code: `// Example usage
-<CustomCursor
-  color="blue"
-  size={20}
-  trail={true}
-/>`,
-    category: 'ui'
+    category: 'cursor interactive',
+    active:false,
   },
   {
     id: 'scroll-select',
-    name: 'ScrollSelect',
+    name: 'Scroll Select',
+    active:false,
     description: 'A scrollable selection component that allows users to choose from a list of options with smooth animations.',
-    code: `// Example usage
-<ScrollSelect
-  options={['Option 1', 'Option 2', 'Option 3']}
-  onChange={(value) => console.log(value)}
-/>`,
-    category: 'ui'
+    category: 'inputs'
   },
   {
     id: 'sentence-form',
-    name: 'SentenceForm',
+    name: 'Sentence Form',
+    active:false,
     description: 'A form component that creates a natural language sentence from user selections.',
-    code: `// Example usage
-<SentenceForm
-  template="I want to {action} {target}"
-  actions={['build', 'design', 'create']}
-  targets={['website', 'app', 'dashboard']}
-/>`,
-    category: 'ui'
+    category: 'inputs'
   }
 ]; 

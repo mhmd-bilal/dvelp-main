@@ -1,0 +1,64 @@
+# Blurry Blobs
+
+A beautiful animated background component that creates organic, flowing blob shapes with customizable colors and opacity.
+
+## Import
+
+```tsx
+import { BlurryBlobBackground } from "@/components/docs/blurry-blobs";
+```
+
+## Usage
+
+```tsx
+<BlurryBlobBackground
+  className="absolute inset-0"
+  colors={["bg-yellow-400", "bg-red-200"]}
+  enableMouseInteraction={true}
+  animationSpeed={1}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| className | string | "" | Additional CSS classes to apply to the container |
+| colors | string[] | defaultColors | Array of color classes for the blobs |
+| enableMouseInteraction | boolean | true | Whether to enable mouse-based animation |
+| animationSpeed | number | 1 | Speed of the animation |
+
+## Example
+
+Here's a complete example of how to use the BlurryBlobBackground component:
+
+```tsx
+import { BlurryBlobBackground } from "@/components/docs/blurry-blobs";
+
+export default function Page() {
+  return (
+    <div className="relative min-h-screen">
+      <BlurryBlobBackground
+        className="absolute inset-0"
+        colors={[
+          "bg-yellow-400 dark:bg-yellow-600",
+          "bg-red-200 dark:bg-red-400",
+          "bg-purple-300 dark:bg-purple-600"
+        ]}
+        enableMouseInteraction={true}
+        animationSpeed={1}
+      />
+      <div className="relative z-10">
+        {/* Your content here */}
+      </div>
+    </div>
+  );
+}
+```
+
+## Notes
+
+- The component uses CSS transforms for smooth animations
+- Colors should be provided as Tailwind CSS color classes
+- The component is responsive and works well on both desktop and mobile
+- Dark mode is supported through the color classes 

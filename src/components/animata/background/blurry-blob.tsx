@@ -16,8 +16,6 @@ export default function BlurryBlob({
     const blob1Ref = useRef<HTMLDivElement>(null);
     const blob2Ref = useRef<HTMLDivElement>(null);
 
-    // Random offset factors per blob – fixed after mount
-
     const offsetFactors = useRef({
         blob1X: Math.random() * 2 + 0.5,
         blob1Y: Math.random() * 2 + 0.5,
