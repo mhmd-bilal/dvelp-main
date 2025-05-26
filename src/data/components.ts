@@ -32,11 +32,11 @@ export const componentsData: ComponentDoc[] = [
     usage: {
       language: 'tsx',
       content: `<BlurryBlobBackground
-        className="custom-blob-bg"
-        colors={['#ff6f61', '#ffb347', '#6b5b95']} // warm, playful palette
-        enableMouseInteraction={true}
-        animationSpeed={2} // twice as fast as default
-      />`
+  className="custom-blob-bg"
+  colors={['#ff6f61', '#ffb347', '#6b5b95']} // warm, playful palette
+  enableMouseInteraction={true}
+  animationSpeed={2} // twice as fast as default
+/>`
     },
   },
   {
@@ -52,14 +52,14 @@ export const componentsData: ComponentDoc[] = [
     usage: {
       language: 'tsx',
       content: `<HalftoneBackground
-        bgColor="#0f172a"
-        dotsColor="#38bdf8"
-        textColor="#ffffff"
-        dotSpacing={30}
-        dotRadius={2}
-        influenceRadius={100}
-        maxScale={3}
-      />`
+  bgColor="#0f172a"
+  dotsColor="#38bdf8"
+  textColor="#ffffff"
+  dotSpacing={30}
+  dotRadius={2}
+  influenceRadius={100}
+  maxScale={3}
+/>`
     },
   },
   {
@@ -75,10 +75,10 @@ export const componentsData: ComponentDoc[] = [
     usage: {
       language: 'tsx',
       content: `<GlowButton variant="glow">Glow Button</GlowButton>
-      <GlowButton variant="outlineGlow">Outline</GlowButton>
-      <GlowButton variant="successGlow">Success</GlowButton>
-      <GlowButton variant="destructiveGlow">Destructive</GlowButton>
-      <GlowButton variant="linkGlow">Link</GlowButton>`
+<GlowButton variant="outlineGlow">Outline</GlowButton>
+<GlowButton variant="successGlow">Success</GlowButton>
+<GlowButton variant="destructiveGlow">Destructive</GlowButton>
+<GlowButton variant="linkGlow">Link</GlowButton>`
     },
 
   },

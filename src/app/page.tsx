@@ -8,13 +8,19 @@ import DocsContent from "@/components/DocsContent";
 import StackologySidebar from "@/components/StackologySidebar";
 import StackologyContent from "@/components/StackologyContent";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function Home() {
   const [selected, setSelected] = useState("introduction");
   const [selectedTab, setSelectedTab] = useState("home");
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState("");
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 700 };
+  const x = useSpring(mouseX, springConfig);
+  const y = useSpring(mouseY, springConfig);
 
   const handleSelect = (name: string) => {
     setSelectedTab(name);
@@ -58,6 +64,17 @@ export default function Home() {
           secondBlobColor="bg-red-100 dark:bg-red-300"
         />
       </>
+
+      {/* Interactive cursor follower */}
+      <motion.div
+        className="absolute pointer-events-none w-32 h-32 rounded-full opacity-30 z-0"
+        style={{
+          x,
+          y,
+          background:
+            "radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%)",
+        }}
+      />
 
       {/* Main Content */}
       <main className="flex z-10 h-full w-full">
@@ -111,7 +128,6 @@ export default function Home() {
               </Button>
             </div>
           </div>
-
           <div className="sm:col-span-2 sm:row-span-1 md:col-span-3 md:col-start-3 md:row-start-7 flex md:flex-row flex-wrap gap-6 md:justify-end items-end justify-start">
             <a
               onClick={() => handleSelect("home")}
@@ -155,99 +171,96 @@ export default function Home() {
               <ModeToggle />
             </div>
           </div>
-
           {/* Docs Tab */}
-          <AnimatePresence>
-            {selectedTab === "docs" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                key="docs"
-                transition={{ duration: 0.9, ease: "easeInOut" }}
-                className="sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-5 flex flex-col justify-start items-start"
-              >
-                <div
-                  className={`w-full h-full  ${
-                    selectedTab === "docs" ? "block" : "hidden"
-                  }`}
+          <div className="sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-5 flex flex-col justify-start items-start">
+            <AnimatePresence mode="wait">
+              {selectedTab === "docs" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                  key="docs"
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="w-full h-full"
                 >
-                  <DocsSidebar selected={selected} onSelect={setSelected} />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <AnimatePresence>
-            {selectedTab === "docs" && (
-              <motion.div
-                initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: 25, filter: "blur(8px)" }}
-                key="docs"
-                transition={{ duration: 1, ease: "easeInOut" }}
-                className="sm:col-span-2 sm:row-span-2 md:col-span-3 md:row-span-6 md:col-start-3 md:row-start-1 flex flex-col justify-start items-end "
-              >
-                <div
-                  className={`w-full h-full  ${
-                    selectedTab === "docs" ? "block" : "hidden"
-                  }`}
+                  <div
+                    className={`w-full h-full  ${
+                      selectedTab === "docs" ? "block" : "hidden"
+                    }`}
+                  >
+                    <DocsSidebar selected={selected} onSelect={setSelected} />
+                  </div>
+                </motion.div>
+              )}
+              {selectedTab === "stackology" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                  key="stackology"
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="w-full h-full"
                 >
-                  {" "}
-                  <DocsContent selectedComponent={selected} />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Stackology Tab */}
-          <AnimatePresence>
-            {selectedTab === "stackology" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                key="stackology"
-                transition={{ duration: 0.9, ease: "easeInOut" }}
-                className="sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-5 flex flex-col justify-start items-start"
-              >
-                <div
-                  className={`w-full h-full  ${
-                    selectedTab === "stackology" ? "block" : "hidden"
-                  }`}
+                  <div
+                    className={`w-full h-full  ${
+                      selectedTab === "stackology" ? "block" : "hidden"
+                    }`}
+                  >
+                    <StackologySidebar
+                      selectedTechs={selectedTechs}
+                      onTechSelect={setSelectedTechs}
+                      selectedProject={selectedProject}
+                      onProjectSelect={setSelectedProject}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div className="sm:col-span-2 sm:row-span-2 md:col-span-3 md:row-span-6 md:col-start-3 md:row-start-1 flex flex-col justify-start items-end ">
+            <AnimatePresence mode="wait">
+              {selectedTab === "docs" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                  key="docs"
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="w-full h-full"
                 >
-                  <StackologySidebar
-                    selectedTechs={selectedTechs}
-                    onTechSelect={setSelectedTechs}
-                    selectedProject={selectedProject}
-                    onProjectSelect={setSelectedProject}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <AnimatePresence>
-            {selectedTab === "stackology" && (
-              <motion.div
-                initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: 25, filter: "blur(8px)" }}
-                key="stackology"
-                transition={{ duration: 1, ease: "easeInOut" }}
-                className="sm:col-span-2 sm:row-span-2 md:col-span-3 md:row-span-6 md:col-start-3 md:row-start-1 flex flex-col justify-start items-end"
-              >
-                <div
-                  className={`w-full h-full  ${
-                    selectedTab === "stackology" ? "block" : "hidden"
-                  }`}
+                  <div
+                    className={`w-full h-full  ${
+                      selectedTab === "docs" ? "block" : "hidden"
+                    }`}
+                  >
+                    {" "}
+                    <DocsContent selectedComponent={selected} />
+                  </div>
+                </motion.div>
+              )}
+              {selectedTab === "stackology" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                  key="stackology"
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="w-full h-full"
                 >
-                  <StackologyContent
-                    selectedTechs={selectedTechs}
-                    selectedProject={selectedProject}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  <div
+                    className={`w-full h-full  ${
+                      selectedTab === "stackology" ? "block" : "hidden"
+                    }`}
+                  >
+                    <StackologyContent
+                      selectedTechs={selectedTechs}
+                      selectedProject={selectedProject}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
       </main>
     </div>
