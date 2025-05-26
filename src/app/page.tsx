@@ -5,12 +5,16 @@ import { ModeToggle } from "@/components/theme-toggle";
 import BlurryBlob from "@/components/animata/background/blurry-blob";
 import DocsSidebar from "@/components/DocsSidebar";
 import DocsContent from "@/components/DocsContent";
+import StackologySidebar from "@/components/StackologySidebar";
+import StackologyContent from "@/components/StackologyContent";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
   const [selected, setSelected] = useState("introduction");
   const [selectedTab, setSelectedTab] = useState("home");
+  const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState("");
 
   const handleSelect = (name: string) => {
     setSelectedTab(name);
@@ -151,6 +155,8 @@ export default function Home() {
               <ModeToggle />
             </div>
           </div>
+
+          {/* Docs Tab */}
           <AnimatePresence>
             {selectedTab === "docs" && (
               <motion.div
@@ -188,6 +194,56 @@ export default function Home() {
                 >
                   {" "}
                   <DocsContent selectedComponent={selected} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Stackology Tab */}
+          <AnimatePresence>
+            {selectedTab === "stackology" && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                key="stackology"
+                transition={{ duration: 0.9, ease: "easeInOut" }}
+                className="sm:col-span-2 sm:row-span-2 md:col-span-2 md:row-span-5 flex flex-col justify-start items-start"
+              >
+                <div
+                  className={`w-full h-full  ${
+                    selectedTab === "stackology" ? "block" : "hidden"
+                  }`}
+                >
+                  <StackologySidebar
+                    selectedTechs={selectedTechs}
+                    onTechSelect={setSelectedTechs}
+                    selectedProject={selectedProject}
+                    onProjectSelect={setSelectedProject}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {selectedTab === "stackology" && (
+              <motion.div
+                initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+                key="stackology"
+                transition={{ duration: 1, ease: "easeInOut" }}
+                className="sm:col-span-2 sm:row-span-2 md:col-span-3 md:row-span-6 md:col-start-3 md:row-start-1 flex flex-col justify-start items-end"
+              >
+                <div
+                  className={`w-full h-full  ${
+                    selectedTab === "stackology" ? "block" : "hidden"
+                  }`}
+                >
+                  <StackologyContent
+                    selectedTechs={selectedTechs}
+                    selectedProject={selectedProject}
+                  />
                 </div>
               </motion.div>
             )}
