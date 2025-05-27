@@ -243,7 +243,7 @@ export default function StackologyContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <motion.div className="flex items-center gap-3 p-6 border-b border-border/50">
+          <motion.div className="flex md:flex-row flex-col justify-center md:items-center items-start gap-3 p-6 border-b border-border/50">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -359,7 +359,7 @@ export default function StackologyContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <motion.div className="flex items-center gap-3 p-6 border-b border-border/50">
+          <motion.div className="flex md:flex-row flex-col justify-center items-center gap-3 p-6 border-b border-border/50">
             <motion.div
               animate={{ rotate: [0, -10, 10, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
@@ -399,7 +399,7 @@ export default function StackologyContent({
                         )
                       }
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex md:flex-row flex-col justify-center md:items-center items-start gap-3">
                         <motion.div
                           animate={
                             activeAccordion === index
@@ -426,7 +426,7 @@ export default function StackologyContent({
                           </p>
                         </div>
                         <div className="p-3 rounded-lg bg-green-500/5 border border-green-500/20">
-                          <div className="flex items-start gap-2">
+                          <div className="flex md:flex-row flex-col justify-center md:items-center items-start gap-2">
                             <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
                             <div>
                               <p className="font-medium text-sm text-green-400 mb-1">
@@ -452,7 +452,7 @@ export default function StackologyContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          <motion.div className="flex items-center gap-3 p-6 border-b border-border/50">
+          <motion.div className="flex md:flex-row flex-col justify-center items-center  gap-3 p-6 border-b border-border/50">
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -484,7 +484,7 @@ export default function StackologyContent({
                   whileHover={{ scale: 1, x: 5 }}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+                    <div className="flex md:flex-row flex-col justify-center md:items-center items-start gap-3">
                       <motion.div
                         className="p-2 rounded-lg bg-primary/10"
                         whileHover={{ scale: 1.1, rotate: 5 }}
@@ -541,7 +541,7 @@ export default function StackologyContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
         >
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex md:flex-row flex-col justify-center md:items-center items-start gap-3 mb-4">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
@@ -550,7 +550,7 @@ export default function StackologyContent({
             </motion.div>
             <h4 className="font-semibold">Stack Summary</h4>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:text-center text-left">
             {techCategories.map((category, index) => (
               <motion.div
                 key={category.id}

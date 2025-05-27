@@ -133,7 +133,7 @@ const HalftoneBackground: React.FC<HalftoneProps> = ({
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-6xl font-bold tracking- font-mono "
+              className="text-6xl font-bold dar:text-white text-white font-mono "
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >

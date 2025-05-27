@@ -710,7 +710,7 @@ export default function DocsContent({
           {/* Preview Section */}
           <motion.div
             variants={previewVariants}
-            className="border border-border rounded-lg p-6 bg-black/40 cursor-context-menu"
+            className="border border-border rounded-lg p-6 dark:bg-black/40 bg-white/40 cursor-context-menu"
           >
             <motion.h3
               variants={itemVariants}
@@ -741,7 +741,7 @@ export default function DocsContent({
           {/* Code Section */}
           <motion.div
             variants={codeVariants}
-            className="border border-border rounded-lg bg-black/40"
+            className="border border-border rounded-lg dark:bg-black/40 bg-white/40"
           >
             <motion.h3
               variants={itemVariants}

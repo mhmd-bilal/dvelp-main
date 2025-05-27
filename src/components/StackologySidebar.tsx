@@ -101,7 +101,7 @@ export default function StackologySidebar({
         className="text-left border-b border-border/50 pb-4"
       >
         <motion.h1
-          className="text-2xl font-bold text-white flex items-center justify-start gap-2"
+          className="text-2xl font-bold dark:text-white text-black flex items-center justify-start gap-2"
           whileHover={{ scale: 1 }}
         >
           Stackology
@@ -153,7 +153,7 @@ export default function StackologySidebar({
                     className={`w-4 h-4 mx-auto ${
                       selectedProject === type.name
                         ? "text-primary"
-                        : "text-white"
+                        : "dark:text-white text-black"
                     }`}
                   />
                 </motion.div>

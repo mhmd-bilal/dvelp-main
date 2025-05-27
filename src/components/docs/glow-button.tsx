@@ -47,7 +47,7 @@ const buttonVariants = cva(
       `,
         outlineGlow: `
           relative z-10 overflow-hidden
-          text-foreground dark:text-white
+          text-black dark:text-white
           border border-border dark:border-zinc-700
           px-6 py-3 rounded-lg cursor-pointer bg-transparent
         
@@ -154,7 +154,11 @@ export function GlowButton({
       className={cn("relative z-10", className)}
       {...props}
     >
-      <span className="relative z-10 flex items-center gap-2 dark:text-white text-white">
+      <span
+        className={`relative z-10 flex items-center gap-2 dark:text-white ${
+          (variant === "outlineGlow" || variant === "linkGlow" ) ? "text-black" : "text-white"
+        }`}
+      >
         {children}
       </span>
     </Button>
