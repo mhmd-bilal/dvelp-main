@@ -131,7 +131,7 @@ export default function Home() {
                   ⚡ <span>Explore</span>
                 </span>
               </Button>
-              <Button variant="outlineGlow" className="h-full">
+              <Button variant="outlineGlow" className="h-full" onClick={() => window.open("https://github.com/mhmd-bilal/", "_blank")} >
                 <span className="relative z-10 flex items-center gap-2">
                   Visit Creator
                 </span>
@@ -141,31 +141,28 @@ export default function Home() {
           <div className="sm:col-span-2 sm:row-span-1 md:col-span-3 md:col-start-3 md:row-start-7 flex md:flex-row flex-wrap gap-6 md:justify-end items-end justify-start">
             <a
               onClick={() => handleSelect("home")}
-              className={`cursor-pointer hover:text-foreground transition-colors ${
-                selectedTab === "home"
-                  ? "text-foreground"
-                  : "text-muted-foreground "
-              }`}
+              className={`cursor-pointer hover:text-foreground transition-colors ${selectedTab === "home"
+                ? "text-foreground"
+                : "text-muted-foreground "
+                }`}
             >
               home
             </a>
             <a
               onClick={() => handleSelect("stackology")}
-              className={`cursor-pointer hover:text-foreground transition-colors ${
-                selectedTab === "stackology"
-                  ? "text-foreground"
-                  : "text-muted-foreground "
-              }`}
+              className={`cursor-pointer hover:text-foreground transition-colors ${selectedTab === "stackology"
+                ? "text-foreground"
+                : "text-muted-foreground "
+                }`}
             >
               stackology
             </a>
             <a
               onClick={() => handleSelect("docs")}
-              className={`cursor-pointer hover:text-foreground transition-colors ${
-                selectedTab === "docs"
-                  ? "text-foreground"
-                  : "text-muted-foreground "
-              }`}
+              className={`cursor-pointer hover:text-foreground transition-colors ${selectedTab === "docs"
+                ? "text-foreground"
+                : "text-muted-foreground "
+                }`}
             >
               components
             </a>
@@ -194,9 +191,8 @@ export default function Home() {
                   className="w-full h-full"
                 >
                   <div
-                    className={`w-full h-full  ${
-                      selectedTab === "docs" ? "block" : "hidden"
-                    }`}
+                    className={`w-full h-full  ${selectedTab === "docs" ? "block" : "hidden"
+                      }`}
                   >
                     <DocsSidebar selected={selected} onSelect={setSelected} />
                   </div>
@@ -212,9 +208,8 @@ export default function Home() {
                   className="w-full h-full"
                 >
                   <div
-                    className={`w-full h-full  ${
-                      selectedTab === "stackology" ? "block" : "hidden"
-                    }`}
+                    className={`w-full h-full  ${selectedTab === "stackology" ? "block" : "hidden"
+                      }`}
                   >
                     <StackologySidebar
                       selectedTechs={selectedTechs}
@@ -239,9 +234,8 @@ export default function Home() {
                   className="w-full h-full"
                 >
                   <div
-                    className={`w-full h-full  ${
-                      selectedTab === "docs" ? "block" : "hidden"
-                    }`}
+                    className={`w-full h-full  ${selectedTab === "docs" ? "block" : "hidden"
+                      }`}
                   >
                     {" "}
                     <DocsContent selectedComponent={selected} handleSelect={handleSelect} />
@@ -258,9 +252,8 @@ export default function Home() {
                   className="w-full h-full"
                 >
                   <div
-                    className={`w-full h-full  ${
-                      selectedTab === "stackology" ? "block" : "hidden"
-                    }`}
+                    className={`w-full h-full  ${selectedTab === "stackology" ? "block" : "hidden"
+                      }`}
                   >
                     <StackologyContent
                       selectedTechs={selectedTechs}
