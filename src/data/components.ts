@@ -1,6 +1,8 @@
 import blurryBlobTSX from "../components/docs/blurry-blobs.mdx"
 import halftoneBackground from "../components/docs/halftone-bg.mdx";
 import glowButton from "../components/docs/glow-button.mdx"
+import customCursor from "../components/docs/custom-cursor.mdx"
+import sentenceForm from "../components/docs/sentence-form.mdx"
 
 export interface CodeSnippet {
   language: string; // e.g., 'tsx', 'js', 'html'
@@ -81,13 +83,49 @@ export const componentsData: ComponentDoc[] = [
 <GlowButton variant="linkGlow">Link</GlowButton>`
     },
 
+  }, {
+  id: 'sentence-form',
+  name: 'Sentence Form',
+  active: true,
+  description: 'A form component that creates a natural language sentence from user selections.',
+  category: 'inputs',
+  code: {
+    language: 'tsx',
+    content: sentenceForm,
   },
+  usage: {
+    language: 'tsx',
+    content: `const eventTemplate = \`I would like to book {eventType:type:select,placeholder:event type,options:Wedding|Birthday Party|Corporate Event|Conference,required:true,icon:calendar} for {guestCount:type:number,placeholder:number,required:true,icon:users} guests on {date:type:date,placeholder:select date,required:true,icon:calendar} at {location:type:text,placeholder:venue location,required:true,icon:location}. My budget is around {budget:type:text,placeholder:amount,icon:dollar} and I can be reached at {email:type:email,placeholder:your email,required:true,icon:mail}.\`;
+<SentenceForm
+  template={eventTemplate}
+  onSubmit={(data) => {
+      setEventData(data);
+  }}
+  submitText="Book Event"
+/>`,
+  },
+},
   {
     id: 'custom-cursor',
     name: 'Custom Cursor',
     description: 'A customizable cursor component that replaces the default cursor with an interactive, animated version.',
     category: 'cursor interactive',
     active:false,
+     code: {
+      language: 'tsx',
+      content: customCursor,
+    },    
+    usage: {
+      language: 'tsx',
+      content: `<HoverCard
+  variant="dark"
+  className="p-6"
+  cursorIcon={MousePointer2}
+  labelText="Your custom text!"
+>
+  <div>Your content here</div>
+</HoverCard>`
+    },
   },
   {
     id: 'scroll-select',
@@ -95,12 +133,6 @@ export const componentsData: ComponentDoc[] = [
     active:false,
     description: 'A scrollable selection component that allows users to choose from a list of options with smooth animations.',
     category: 'inputs'
-  },
-  {
-    id: 'sentence-form',
-    name: 'Sentence Form',
-    active:false,
-    description: 'A form component that creates a natural language sentence from user selections.',
-    category: 'inputs'
   }
+
 ]; 

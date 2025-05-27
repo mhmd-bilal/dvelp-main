@@ -44,9 +44,18 @@ const componentPreviews = {
       default: mod.HalftonePreview,
     }))
   ),
-  "custom-cursor": dynamic(() => import("./docs/blurry-blobs")),
+  "custom-cursor": dynamic(() =>
+    import("./docs/custom-cursor").then(mod => ({
+      default: mod.Preview,
+    }))
+  ),
   "scroll-select": dynamic(() => import("./docs/blurry-blobs")),
-  "sentence-form": dynamic(() => import("./docs/blurry-blobs")),
+  "sentence-form": dynamic(() =>
+    import("./docs/sentence-form").then(mod => ({
+      default: mod.ExampleUsage,
+    }))
+  ),
+
 };
 
 // Animation variants

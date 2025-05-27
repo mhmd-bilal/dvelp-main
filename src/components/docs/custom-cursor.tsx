@@ -1,0 +1,208 @@
+"use client"
+
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MousePointer2 } from 'lucide-react';
+
+
+const CustomCursor = ({ icon: Icon = MousePointer2, isVisible = false, position = { x: 0, y: 0 } }: { icon?: React.ElementType, isVisible?: boolean, position?: { x: number, y: number } }) => {
+  if (!isVisible) return null;
+
+  return (
+    <motion.div
+      className="fixed pointer-events-none z-50 mix-blend-difference"
+      style={{
+        left: position.x - 12,
+        top: position.y - 12,
+      }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+    >
+      <Icon className="w-6 h-6 text-white" />
+    </motion.div>
+  );
+};
+
+// Hover label component
+const HoverLabel = ({ text, isVisible = false, position = { x: 0, y: 0 } }: { text: string, isVisible?: boolean, position?: { x: number, y: number } }) => {
+  if (!isVisible) return null;
+
+  return (
+    <motion.div
+      className="fixed pointer-events-none z-40 px-3 py-2 bg-black/80 text-white text-sm rounded-lg backdrop-blur-sm"
+      style={{
+        left: position.x + 20,
+        top: position.y - 10,
+      }}
+      initial={{ scale: 0, opacity: 0, y: 10 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        y: [0, -3, 0, -2, 0],
+        x: [0, 1, -1, 0.5, 0]
+      }}
+      exit={{ scale: 0, opacity: 0, y: 10 }}
+      transition={{
+        scale: { duration: 0.2, ease: "easeOut" },
+        opacity: { duration: 0.2, ease: "easeOut" },
+        y: {
+          duration: 3,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop"
+        },
+        x: {
+          duration: 4,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop"
+        }
+      }}
+    >
+      {text}
+    </motion.div>
+  );
+};
+
+// Main hover card component
+interface HoverCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  className?: string;
+  cursorIcon?: React.ElementType;
+  labelText?: string;
+  variant?: "default" | "dark" | "gradient" | "glass";
+}
+
+const HoverCard = ({
+  children,
+  className = "",
+  cursorIcon = MousePointer2,
+  labelText = "Hover me!",
+  variant = "default",
+  ...props
+}: HoverCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: { clientX: number; clientY: number; }) => {
+      if (isHovered) {
+        setMousePosition({
+          x: e.clientX,
+          y: e.clientY
+        });
+      }
+    };
+
+
+    if (isHovered) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      document.body.style.cursor = 'none';
+    } else {
+      document.body.style.cursor = 'auto';
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.body.style.cursor = 'auto';
+    };
+  }, [isHovered]);
+
+  const handleMouseEnter = (e: { clientX: number; clientY: number; }) => {
+    setIsHovered(true);
+    setMousePosition({
+      x: e.clientX,
+      y: e.clientY
+    });
+  };
+
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const baseClasses = "rounded-xl transition-all duration-300 ease-out cursor-none";
+
+  const variantClasses = {
+    default: "bg-white border border-gray-200 shadow-lg hover:shadow-xl hover:scale-[1.02] hover:border-gray-300",
+    dark: "bg-gray-900 border border-gray-700 shadow-lg hover:shadow-xl hover:scale-[1.02] hover:border-gray-600",
+    gradient: "bg-gradient-to-br from-purple-500 to-pink-500 border-0 shadow-lg hover:shadow-xl hover:scale-[1.02] hover:from-purple-600 hover:to-pink-600",
+    glass: "bg-white/20 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-xl hover:scale-[1.02] hover:bg-white/30"
+  };
+
+  // Filter out props that can cause type conflicts with Framer Motion
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onDrag,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onDragStart,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onDragEnd,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onDragOver,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onAnimationStart,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onAnimationEnd,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onTransitionEnd,
+    ...safeProps
+  } = props;
+
+  return (
+    <>
+      <motion.div
+        ref={cardRef}
+        className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        whileHover={{ y: -2 }}
+        transition={{ duration: 0.2 }}
+        {...safeProps}
+      >
+        {children}
+      </motion.div>
+
+      <AnimatePresence>
+        <CustomCursor
+          icon={cursorIcon}
+          isVisible={isHovered}
+          position={mousePosition}
+        />
+        <HoverLabel
+          text={labelText}
+          isVisible={isHovered}
+          position={mousePosition}
+        />
+      </AnimatePresence>
+    </>
+  );
+};
+
+// Preview function
+export function Preview() {
+  return (
+    <HoverCard
+      variant="dark"
+      className="p-6"
+      cursorIcon={MousePointer2}
+      labelText="Mohammed Bilal"
+    >
+      <div className="space-y-4">
+        <h3 className="text-xl font-semibold text-white">Dark Card</h3>
+        <p className="text-gray-300">
+          A dark themed card with a star cursor for premium content.
+        </p>
+        <div className="flex items-center space-x-2">
+          <div className="w-3 h-3 bg-primary rounded-full"></div>
+          <span className="text-sm text-gray-400">Premium</span>
+        </div>
+      </div>
+    </HoverCard>
+  );
+}
+
+export default HoverCard;
