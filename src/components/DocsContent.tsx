@@ -5,23 +5,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { componentsData, ComponentDoc } from "@/data/components";
 import Code from "./ui/Code";
 import dynamic from "next/dynamic";
-import { useMotionValue, useSpring } from 'framer-motion';
-import { 
-  Code as Coding, 
-  Layers, 
-  Zap, 
-  Heart, 
-  Sparkles, 
-  Palette, 
-  Globe, 
+import { useMotionValue } from "framer-motion";
+import {
+  Layers,
+  Heart,
   Rocket,
   ArrowRight,
-  LucideIcon
-} from 'lucide-react';
-
+  Terminal,
+  Copy,
+  Check,
+  Settings,
+  CheckCircle,
+  ExternalLink,
+  Zap,
+  Palette,
+  Shield,
+} from "lucide-react";
 
 type DocsContentProps = {
   selectedComponent: string;
+  handleSelect: (component: string) => void;
 };
 
 // Dynamically import component previews
@@ -66,7 +69,7 @@ const pageVariants = {
   exit: {
     opacity: 0,
     y: -10,
-    scale: 1.02,
+    scale: 1,
     transition: {
       duration: 0.3,
       ease: [0.25, 0.46, 0.45, 0.94],
@@ -123,33 +126,20 @@ const codeVariants = {
   },
 };
 
-type FloatingIcon = {
-  Icon: LucideIcon;
-  delay: number;
-  x: number;
-  y: number;
-  size: number;
-};
-
-export default function DocsContent({ selectedComponent }: DocsContentProps) {
+export default function DocsContent({
+  selectedComponent,
+  handleSelect,
+}: DocsContentProps) {
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [activeStep, setActiveStep] = useState<string | null>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [installHoveredFeature, setinstallHoveredFeature] = useState<
+    string | null
+  >(null);
 
-  const springConfig = { damping: 25, stiffness: 700 };
-  const x = useSpring(mouseX, springConfig);
-  const y = useSpring(mouseY, springConfig);
-
-  // Floating icons data
-  const floatingIcons: FloatingIcon[] = [
-    { Icon: Coding, delay: 0, x: 10, y: 20, size: 20 },
-    { Icon: Layers, delay: 1, x: 85, y: 15, size: 24 },
-    { Icon: Zap, delay: 2, x: 15, y: 70, size: 18 },
-    { Icon: Palette, delay: 1.5, x: 80, y: 75, size: 22 },
-    { Icon: Globe, delay: 3, x: 90, y: 40, size: 26 },
-    { Icon: Sparkles, delay: 0.5, x: 25, y: 45, size: 16 },
-  ];
-
+  console.log(installHoveredFeature);
   const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     mouseX.set((event.clientX - rect.left - rect.width / 2) * 0.1);
@@ -166,44 +156,6 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
       className="h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* Floating tech icons */}
-      {floatingIcons.map(
-        ({ Icon, delay, x: iconX, y: iconY, size }, index) => (
-          <motion.div
-            key={index}
-            className="absolute text-muted-foreground/20 pointer-events-none z-0"
-            style={{
-              left: `${iconX}%`,
-              top: `${iconY}%`,
-            }}
-            animate={{
-              y: [0, -15, 0],
-              rotate: [0, 3, -3, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 2 + delay,
-              repeat: Infinity,
-              delay: delay,
-              ease: "easeInOut",
-            }}
-          >
-            <Icon size={size} />
-          </motion.div>
-        )
-      )}
-
-      {/* Interactive cursor follower */}
-      <motion.div
-        className="absolute pointer-events-none w-32 h-32 rounded-full opacity-30 z-0"
-        style={{
-          x,
-          y,
-          background:
-            "radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%)",
-        }}
-      />
-
       <motion.div
         variants={itemVariants}
         className="flex flex-col gap-8 relative z-10"
@@ -214,11 +166,11 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             <motion.h2
               variants={itemVariants}
               className="text-3xl font-bold flex items-center gap-2"
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1 }}
             >
               About{" "}
               <motion.span
-                className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-primary/90 to-[#63440e] bg-clip-text font-serif -tracking-normal text-transparent text-4xl"
                 animate={{
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                 }}
@@ -226,17 +178,10 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
               >
                 dvelp
               </motion.span>
-              <motion.span
-                className="text-purple-500"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                .
-              </motion.span>
             </motion.h2>
 
             <motion.div
-              className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20"
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary/10 to-[#493006]/10 border border-primary/20 cursor-pointer"
               initial={{ scale: 0, rotate: -10 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.5, type: "spring" }}
@@ -250,7 +195,7 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
           {/* Enhanced description with interactive highlights */}
           <motion.p
             variants={itemVariants}
-            className="text-muted-foreground mb-6 leading-relaxed"
+            className="text-muted-foreground mb-4"
           >
             Welcome to{" "}
             <motion.span
@@ -260,21 +205,24 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             >
               dvelp
             </motion.span>
-            , a collection of aesthetically pleasing and functional components
-            created with love for the web development community. This project
-            is maintained with a focus on creating beautiful, reusable
-            components that enhance user experience while maintaining high
-            performance and accessibility standards.
+            — an open-source home for beautiful, functional components built
+            with Next.js, ShadCN, Tailwind, and Framer Motion. Every component
+            is designed to be visually unique, fully customizable, and
+            developer-friendly, so you can build polished interfaces faster
+            without compromising performance or accessibility.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-muted-foreground mb-8"
           >
-            Each component is carefully crafted to provide both visual appeal
-            and practical functionality, making it easier for developers to
-            create stunning web applications without compromising on quality
-            or user experience.
+            At the heart of dvelp is also{" "}
+            <span className="font-medium text-foreground">Stackalogy</span> — a
+            smart tool that helps you plan your web app stack based on your
+            current skills and goals. Just plug in what you know and what you’re
+            building, and Stackalogy will recommend the best tech combinations,
+            highlight potential pitfalls, and even provide boilerplate templates
+            to get you started.
           </motion.p>
 
           {/* Feature highlights */}
@@ -282,27 +230,21 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             {/* Components feature */}
             <motion.div
               className="p-4 rounded-lg bg-gradient-to-r from-purple-500/5 to-transparent border border-purple-500/20 cursor-pointer group"
+              onClick={() => handleSelect("docs")}
               onHoverStart={() => setHoveredFeature("components")}
               onHoverEnd={() => setHoveredFeature(null)}
-              whileHover={{ scale: 1.02, x: 5 }}
+              whileHover={{ scale: 1, x: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               <div className="flex items-center gap-3">
-                <motion.div
-                  animate={
-                    hoveredFeature === "components" ? { rotate: 360 } : {}
-                  }
-                  transition={{ duration: 0.5 }}
-                >
+                <motion.div>
                   <Layers className="w-5 h-5 text-purple-500" />
                 </motion.div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-sm">
-                    Component Resources
-                  </h4>
+                  <h4 className="font-semibold text-sm">Component Resources</h4>
                   <p className="text-xs text-muted-foreground">
-                    Custom animated components with Next.js, Shadcn, Tailwind
-                    & Framer Motion
+                    Custom animated components with Next.js, Shadcn, Tailwind &
+                    Framer Motion
                   </p>
                 </div>
                 <motion.div
@@ -319,8 +261,9 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
             <motion.div
               className="p-4 rounded-lg bg-gradient-to-r from-blue-500/5 to-transparent border border-blue-500/20 cursor-pointer group"
               onHoverStart={() => setHoveredFeature("stackalogy")}
+              onClick={() => handleSelect("stackology")}
               onHoverEnd={() => setHoveredFeature(null)}
-              whileHover={{ scale: 1.02, x: 5 }}
+              whileHover={{ scale: 1, x: 5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               <div className="flex items-center gap-3">
@@ -335,8 +278,8 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
                 <div className="flex-1">
                   <h4 className="font-semibold text-sm">Stackalogy Tool</h4>
                   <p className="text-xs text-muted-foreground">
-                    Get tech stack suggestions, error solutions, boilerplates
-                    & docs
+                    Get tech stack suggestions, error solutions, boilerplates &
+                    docs
                   </p>
                 </div>
                 <motion.div
@@ -351,14 +294,14 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
           </motion.div>
 
           {/* Animated stats or badges */}
-          <motion.div
-            className="flex gap-3 flex-wrap"
-            variants={itemVariants}
-          >
+          <motion.div className="flex gap-3 flex-wrap" variants={itemVariants}>
             {[
               "Open Source",
               "TypeScript",
+              "Next JS",
+              "React JS",
               "Tailwind CSS",
+              "Shad CN",
               "Framer Motion",
             ].map((tech, index) => (
               <motion.span
@@ -375,91 +318,366 @@ export default function DocsContent({ selectedComponent }: DocsContentProps) {
           </motion.div>
         </motion.div>
       </motion.div>
-
-      {/* Subtle animated background pattern */}
-      <motion.div
-        className="absolute inset-0 opacity-5 pointer-events-none"
-        animate={{
-          background: [
-            "radial-gradient(circle at 20% 20%, #8b5cf6 0%, transparent 50%)",
-            "radial-gradient(circle at 80% 80%, #3b82f6 0%, transparent 50%)",
-            "radial-gradient(circle at 20% 20%, #8b5cf6 0%, transparent 50%)",
-          ],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      />
     </motion.section>
   );
 
-  const renderInstallation = () => (
-    <motion.section
-      key="installation"
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8"
-    >
-      <motion.div variants={itemVariants} className="flex flex-col gap-8">
-        <motion.div variants={itemVariants}>
-          <motion.h2
-            variants={itemVariants}
-            className="text-3xl font-bold mb-4"
-          >
-            Installation
-          </motion.h2>
-          <motion.p
-            variants={itemVariants}
-            className="text-muted-foreground mb-4"
-          >
-            This UI uses components from <code>shadcn/ui</code>. To get started,
-            install it in your project. CLI installation for dvelp is coming
-            soon!
-          </motion.p>
+  const renderInstallation = () => {
+    const handleCopyCode = async (code: string) => {
+      try {
+        await navigator.clipboard.writeText(code);
+        setCopiedCode(true);
+        setTimeout(() => setCopiedCode(false), 2000);
+      } catch (err) {
+        console.error("Failed to copy code:", err);
+      }
+    };
+
+    const installationSteps = [
+      {
+        id: "shadcn",
+        title: "Install shadcn/ui",
+        description: "Set up the foundation with shadcn/ui components",
+        code: "npx shadcn-ui@latest init",
+        icon: "⚡",
+        gradient: "from-yellow-500/5 to-orange-500/5",
+        border: "border-yellow-500/20",
+        iconColor: "text-yellow-500",
+      },
+      {
+        id: "copy",
+        title: "Copy Component Code",
+        description: "Grab the component from dvelp documentation",
+        code: "// Copy from dvelp docs",
+        icon: "📋",
+        gradient: "from-blue-500/5 to-cyan-500/5",
+        border: "border-blue-500/20",
+        iconColor: "text-blue-500",
+      },
+      {
+        id: "paste",
+        title: "Add to Your Project",
+        description: "Paste into your components directory",
+        code: "./components/ui/your-component.tsx",
+        icon: "📁",
+        gradient: "from-green-500/5 to-emerald-500/5",
+        border: "border-green-500/20",
+        iconColor: "text-green-500",
+      },
+      {
+        id: "dependencies",
+        title: "Install Dependencies",
+        description: "Add required packages for animations",
+        code: "npm install framer-motion lucide-react",
+        icon: "📦",
+        gradient: "from-purple-500/5 to-violet-500/5",
+        border: "border-purple-500/20",
+        iconColor: "text-purple-500",
+      },
+      {
+        id: "customize",
+        title: "Customize & Use",
+        description: "Tailor the component to fit your needs",
+        code: '<YourComponent className="custom-styles" />',
+        icon: "🎨",
+        gradient: "from-pink-500/5 to-rose-500/5",
+        border: "border-pink-500/20",
+        iconColor: "text-pink-500",
+      },
+    ];
+
+    const features = [
+      {
+        icon: <Zap className="w-5 h-5" />,
+        title: "Lightning Fast Setup",
+        description: "Get started in minutes, not hours",
+        color: "text-yellow-500",
+      },
+      {
+        icon: <Palette className="w-5 h-5" />,
+        title: "Fully Customizable",
+        description: "Every component adapts to your design system",
+        color: "text-purple-500",
+      },
+      {
+        icon: <Shield className="w-5 h-5" />,
+        title: "Production Ready",
+        description: "Built with TypeScript and best practices",
+        color: "text-green-500",
+      },
+    ];
+
+    return (
+      <motion.section
+        key="installation"
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="sticky top-16 h-full overflow-y-auto w-full bg-black/5 dark:bg-black/20 border-1 border-accent rounded-lg p-8 flex flex-col gap-8 relative overflow-hidden"
+        onMouseMove={handleMouseMove}
+      >
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col gap-8 relative z-10"
+        >
+          {/* Enhanced header */}
+          <motion.div variants={itemVariants}>
+            <motion.div className="flex items-center gap-4 mb-6">
+              <motion.h2
+                variants={itemVariants}
+                className="text-3xl font-bold flex items-center gap-3"
+                whileHover={{ scale: 1 }}
+              >
+                Installation
+              </motion.h2>
+
+              <motion.div
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20"
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.5, type: "spring" }}
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <CheckCircle className="w-3 h-3 text-green-400" />
+                </motion.div>
+                <span className="text-xs text-muted-foreground">
+                  Easy Setup
+                </span>
+              </motion.div>
+            </motion.div>
+
+            <motion.p
+              variants={itemVariants}
+              className="text-muted-foreground mb-6 text-lg"
+            >
+              Get up and running with{" "}
+              <motion.span
+                className="font-semibold text-foreground cursor-pointer"
+                whileHover={{ scale: 1.05, color: "#8b5cf6" }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                dvelp
+              </motion.span>{" "}
+              components in just a few steps. Built on top of{" "}
+              <span className="font-medium text-primary">shadcn/ui</span> for
+              maximum compatibility and developer experience.
+            </motion.p>
+
+            {/* Feature highlights */}
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 "
+              variants={itemVariants}
+            >
+              {features.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  className="p-4 rounded-lg bg-gradient-to-br from-muted/50 to-transparent border border-muted/50 cursor-pointer group"
+                  onHoverStart={() => setinstallHoveredFeature(feature.title)}
+                  onHoverEnd={() => setinstallHoveredFeature(null)}
+                  whileHover={{ scale: 1, y: -2 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
+                >
+                  <div className="flex items-start gap-3">
+                    <motion.div
+                      className={feature.color}
+                      animate={
+                        hoveredFeature === feature.title
+                          ? { scale: 1.1, rotate: 5 }
+                          : {}
+                      }
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      {feature.icon}
+                    </motion.div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">
+                        {feature.title}
+                      </h4>
+                      <p className="text-xs text-muted-foreground">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Interactive installation steps */}
           <motion.div
             variants={itemVariants}
-            className="border border-border rounded-lg p-6"
+            className="border border-border/50 rounded-xl p-6 bg-gradient-to-br from-background/50 to-muted/20 backdrop-blur-sm"
           >
-            <motion.h3
-              variants={itemVariants}
-              className="text-xl font-semibold mb-4"
-            >
-              Quick Start
-            </motion.h3>
-            <motion.ol
-              variants={itemVariants}
-              className="list-decimal list-inside space-y-2 text-muted-foreground"
-            >
-              <motion.li variants={itemVariants}>
-                Follow the{" "}
-                <a
-                  href="https://ui.shadcn.com/docs/installation"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-primary"
+            <motion.div className="flex items-center gap-3 mb-6">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <Settings className="w-6 h-6 text-primary" />
+              </motion.div>
+              <motion.h3
+                variants={itemVariants}
+                className="text-xl font-semibold"
+              >
+                Quick Start Guide
+              </motion.h3>
+            </motion.div>
+
+            <motion.div className="space-y-4">
+              {installationSteps.map((step, index) => (
+                <motion.div
+                  key={step.id}
+                  className={`p-4 rounded-lg bg-gradient-to-r ${step.gradient} border ${step.border} cursor-pointer group transition-all duration-300`}
+                  onHoverStart={() => setActiveStep(step.id)}
+                  onHoverEnd={() => setActiveStep(null)}
+                  whileHover={{ scale: 1, x: 5 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 + index * 0.1 }}
                 >
-                  shadcn/ui installation guide
-                </a>
-              </motion.li>
-              <motion.li variants={itemVariants}>
-                Copy the component code from the documentation
-              </motion.li>
-              <motion.li variants={itemVariants}>
-                Paste it into your project
-              </motion.li>
-              <motion.li variants={itemVariants}>
-                Import any required dependencies
-              </motion.li>
-              <motion.li variants={itemVariants}>
-                Customize the component as needed
-              </motion.li>
-            </motion.ol>
+                  <div className="flex items-start gap-4">
+                    <motion.div
+                      className="flex items-center justify-center w-8 h-8 rounded-full bg-background/50 border border-border/50"
+                      animate={activeStep === step.id ? { scale: 1.1 } : {}}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <span className="text-sm">{index + 1}</span>
+                    </motion.div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">{step.icon}</span>
+                        <h4 className="font-semibold text-sm">{step.title}</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-3">
+                        {step.description}
+                      </p>
+
+                      {/* Code block with copy functionality */}
+                      <motion.div
+                        className="relative group"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: activeStep === step.id ? 1 : 0.7 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="flex items-center justify-between p-3 bg-background/80 border border-border/50 rounded-md font-mono text-xs">
+                          <code className="text-foreground/90">
+                            {step.code}
+                          </code>
+                          <motion.button
+                            onClick={() => handleCopyCode(step.code)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {copiedCode ? (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="text-green-500"
+                              >
+                                <Check className="w-3 h-3" />
+                              </motion.div>
+                            ) : (
+                              <Copy className="w-3 h-3 text-muted-foreground" />
+                            )}
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    <motion.div
+                      animate={activeStep === step.id ? { x: 3 } : { x: 0 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <ArrowRight
+                        className={`w-4 h-4 ${step.iconColor} opacity-50 group-hover:opacity-100`}
+                      />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* CLI Coming Soon Banner */}
+            <motion.div
+              className="mt-6 p-4 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5 }}
+            >
+              <div className="flex items-center gap-3">
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Terminal className="w-5 h-5 text-primary" />
+                </motion.div>
+                <div>
+                  <h4 className="font-semibold text-sm text-foreground">
+                    CLI Tool Coming Soon!
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    One command to install any dvelp component directly into
+                    your project
+                  </p>
+                </div>
+                <motion.div
+                  className="ml-auto px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  Soon™
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Additional resources */}
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
+            {[
+              {
+                label: "shadcn/ui docs",
+                icon: <ExternalLink className="w-3 h-3" />,
+                href: "https://ui.shadcn.com",
+              },
+              {
+                label: "Framer Motion",
+                icon: <Zap className="w-3 h-3" />,
+                href: "https://framer.com/motion",
+              },
+              {
+                label: "Tailwind CSS",
+                icon: <Palette className="w-3 h-3" />,
+                href: "https://tailwindcss.com",
+              },
+            ].map((resource, index) => (
+              <motion.a
+                key={resource.label}
+                href={resource.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1 text-xs rounded-full bg-muted/50 text-muted-foreground border border-muted hover:bg-muted hover:text-foreground transition-colors"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.8 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -1 }}
+              >
+                {resource.icon}
+                {resource.label}
+              </motion.a>
+            ))}
           </motion.div>
         </motion.div>
-      </motion.div>
-    </motion.section>
-  );
-
+      </motion.section>
+    );
+  };
   const renderComponentDocs = (component: ComponentDoc) => {
     const PreviewComponent =
       componentPreviews[component.id as keyof typeof componentPreviews];

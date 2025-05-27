@@ -8,7 +8,12 @@ import DocsContent from "@/components/DocsContent";
 import StackologySidebar from "@/components/StackologySidebar";
 import StackologyContent from "@/components/StackologyContent";
 import { useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 
 export default function Home() {
   const [selected, setSelected] = useState("introduction");
@@ -116,7 +121,12 @@ export default function Home() {
               </div>
             </div>
             <div className="flex gap-4">
-              <Button variant="glow" onClick={() => handleSelect("docs")}>
+              <Button
+                variant="glow"
+                onClick={() =>
+                  handleSelect(selectedTab === "docs" ? "home" : "docs")
+                }
+              >
                 <span className="relative z-10 flex items-center gap-2 dark:text-white text-white">
                   ⚡ <span>Explore</span>
                 </span>
@@ -234,7 +244,7 @@ export default function Home() {
                     }`}
                   >
                     {" "}
-                    <DocsContent selectedComponent={selected} />
+                    <DocsContent selectedComponent={selected} handleSelect={handleSelect} />
                   </div>
                 </motion.div>
               )}

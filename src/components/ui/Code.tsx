@@ -40,7 +40,7 @@ export default function Code({
         "relative group rounded-md overflow-hidden bg-black/80 dark:bg-black/60 w-full",
         className
       )}
-      animate={copied ? { scale: 1.02 } : { scale: 1 }}
+      animate={copied ? { scale: 1 } : { scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 15 }}
     >
       <button

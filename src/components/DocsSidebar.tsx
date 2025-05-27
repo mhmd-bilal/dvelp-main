@@ -58,7 +58,7 @@ const buttonVariants = {
     }
   },
   hover: {
-    scale: 1.02,
+    scale: 1,
     transition: {
       duration: 0.2,
       ease: "easeOut"
