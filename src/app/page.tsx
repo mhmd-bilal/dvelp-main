@@ -92,17 +92,17 @@ export default function Home() {
           <div className="sm:col-span-2 sm:row-span-1 md:col-span-2 md:row-span-2 md:col-start-1 md:row-start-6 flex flex-col justify-end items-start gap-7">
             <div className="flex flex-col items-start gap-4">
               <div className="relative w-fit">
-                <h1 className="text-5xl md:text-7xl font-light font-serif -tracking-normal relative z-10">
+                <h1 className="text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-light font-serif -tracking-normal relative z-10">
                   this is <span className="font-black">dvelp.</span>
                 </h1>
                 <h1
-                  className="absolute inset-0 text-5xl md:text-7xl font-light font-serif -tracking-normal blur-3xl opacity-20 text-white"
+                  className="absolute inset-0 text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-light font-serif -tracking-normal blur-3xl opacity-20 text-white"
                   aria-hidden="true"
                 >
                   this is <span className="font-black">dvelp.</span>
                 </h1>
                 <h1
-                  className="absolute inset-0 text-5xl md:text-7xl font-light font-serif -tracking-normal blur-xl opacity-30 dark:text-white text-black"
+                  className="absolute inset-0 text-4xl md:text-5xl lg:text-5xl xl:text-5xl font-light font-serif -tracking-normal blur-xl opacity-30 dark:text-white text-black"
                   aria-hidden="true"
                 >
                   this is <span className="font-black">dvelp.</span>
