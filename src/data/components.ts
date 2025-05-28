@@ -19,7 +19,7 @@ export interface ComponentDoc {
   code?: CodeSnippet;
   active:boolean
 }
-export const categories = ['backgrounds', 'buttons', 'cursor interactive', 'inputs'];
+export const categories = ['backgrounds', 'buttons', 'cursor interactive', 'inputs', 'disclosure'];
 
 export const componentsData: ComponentDoc[] = [
   {
@@ -151,35 +151,4 @@ export const componentsData: ComponentDoc[] = [
   </div>
 </div>`,
   },
-},
-//   {
-//     id: 'custom-cursor',
-//     name: 'Custom Cursor',
-//     description: 'A customizable cursor component that replaces the default cursor with an interactive, animated version.',
-//     category: 'cursor interactive',
-//     active:false,
-//      code: {
-//       language: 'tsx',
-//       content: customCursor,
-//     },    
-//     usage: {
-//       language: 'tsx',
-//       content: `<HoverCard
-//   variant="dark"
-//   className="p-6"
-//   cursorIcon={MousePointer2}
-//   labelText="Your custom text!"
-// >
-//   <div>Your content here</div>
-// </HoverCard>`
-//     },
-//   },
-  // {
-  //   id: 'scroll-select',
-  //   name: 'Scroll Select',
-  //   active:false,
-  //   description: 'A scrollable selection component that allows users to choose from a list of options with smooth animations.',
-  //   category: 'inputs'
-  // }
-
-]; 
+}]; 
