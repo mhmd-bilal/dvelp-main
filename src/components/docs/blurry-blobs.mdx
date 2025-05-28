@@ -6,7 +6,7 @@ function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
-interface BlurryBlobBackgroundProps {
+interface BlurryBlobsProps {
   className?: string;
   colors?: string[];
   enableMouseInteraction?: boolean;
@@ -140,12 +140,12 @@ const defaultColors = [
   "bg-red-100 dark:bg-red-300"
 ];
 
-export default function BlurryBlobBackground({
+export default function BlurryBlobs({
   className = "",
   colors = defaultColors,
   enableMouseInteraction = true,
   animationSpeed = 1
-}: BlurryBlobBackgroundProps) {
+}: BlurryBlobsProps) {
   const blobConfigs = [
     {
       position: "absolute top-10 left-10 dark:opacity-5",
@@ -175,7 +175,7 @@ export default function BlurryBlobBackground({
   ];
 
   return (
-    <div className={cn("fixed inset-0 z-10  overflow-hidden ", className)}>
+    <div className={cn("fixed inset-0 z-10", className)}>
       {blobConfigs.map((config, index) => (
         <div
           key={index}
@@ -196,7 +196,7 @@ export default function BlurryBlobBackground({
 export function BlurryBlobsPreview() {
   return (
     <div className="w-full h-[200px] relative rounded-md bg-white dark:bg-black">
-      <BlurryBlobBackground />
+      <BlurryBlobs />
       <div className="absolute inset-0 flex items-center justify-center">
         <h2 className="text-xl opacity-20 text-white">clearly visible in the background of this page</h2>
       </div>

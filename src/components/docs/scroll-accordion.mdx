@@ -29,12 +29,19 @@ const ScrollAccordion = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrolling = useRef(false);
-//   const scrollTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+  // const scrollTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Initialize refs array
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, items.length);
   }, [items.length]);
+
+  // Update color when activeIndex changes
+  useEffect(() => {
+    if (activeIndex !== null) {
+      setActiveColorIndex(activeIndex % colors.length);
+    }
+  }, [activeIndex, colors.length]);
 
   // Enhanced scroll handler for sequential reveal
   useEffect(() => {
@@ -52,7 +59,6 @@ const ScrollAccordion = ({
         currentIndex !== activeIndex
       ) {
         setActiveIndex(currentIndex);
-        setActiveColorIndex(currentIndex % colors.length);
 
         // Add fade-up class to previous items
         itemRefs.current.forEach((ref, index) => {
@@ -73,7 +79,7 @@ const ScrollAccordion = ({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [activeIndex, items.length, colors.length]);
+  }, [activeIndex, items.length]);
 
   // Enhanced manual toggle function with focus management
   const toggleItem = (index: number) => {
@@ -188,7 +194,8 @@ const ScrollAccordion = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 50vh 0;
+          min-height: 100vh;
+          padding: 2rem 0;
         }
         .accordion-item {
           transition: transform 0.5s ease-out, opacity 0.5s ease-out;
@@ -204,14 +211,13 @@ const ScrollAccordion = ({
       `}</style>
       {/* Dynamic Background */}
       <motion.div
-        className={`absolute h-full w-full bg-gradient-to-br ${colors[activeColorIndex]} -z-10`}
+        className={`fixed inset-0 bg-gradient-to-br ${colors[activeColorIndex]} -z-10`}
         key={activeColorIndex}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <div className="relative z-10 max-w-4xl mx-auto px-6 py-56">
         <motion.div className="space-y-6" initial="hidden" animate="visible">
           {items.map((item, index) => (
             <motion.div
@@ -330,8 +336,13 @@ const ExampleAccordion = () => {
 
   return (
     <div className="relative">
-      <div className="h-screen w-full overflow-auto scrollbar-hide scroll-smooth relative">
+      <div className="h-screen w-full overflow-auto scrollbar-hide scroll-smooth relative bg-transparent">
         <div className="mask-fade blur-fade">
+          <div className="flex flex-col items-center justify-center pt-8">
+            <p className="text-white/90 text-xl font-medium mb- text-center">
+              Click and read through with focus
+            </p>
+          </div>
           <div className="accordion-container">
             <ScrollAccordion items={sampleItems} />
           </div>

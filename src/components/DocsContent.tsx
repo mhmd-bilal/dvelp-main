@@ -55,7 +55,11 @@ const componentPreviews = {
       default: mod.ExampleUsage,
     }))
   ),
-
+  "scroll-accordion": dynamic(() =>
+    import("./docs/scroll-accordion").then(mod => ({
+      default: mod.default,
+    }))
+  ),
 };
 
 // Animation variants
@@ -691,7 +695,7 @@ export default function DocsContent({
     const PreviewComponent =
       componentPreviews[component.id as keyof typeof componentPreviews];
 
-    const importStatement = `import { ${component.name} } from "@/components/dvelp/${component.id}";`;
+    const importStatement = `import { ${component.name.replace(/\s+/g, '')} } from "@/components/dvelp/${component.id}";`;
 
     return (
       <motion.section

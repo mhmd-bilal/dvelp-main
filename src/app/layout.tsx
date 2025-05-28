@@ -3,6 +3,7 @@ import { Manrope, Geist_Mono, DM_Serif_Display, Leckerli_One } from "next/font/g
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import Transition from "@/app/transtion";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Manrope({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dmSerif.variable} ${leckerli.variable} antialiased md:overflow-y-hidden `}
       >
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

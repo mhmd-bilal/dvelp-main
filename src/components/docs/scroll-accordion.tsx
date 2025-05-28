@@ -29,12 +29,19 @@ const ScrollAccordion = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrolling = useRef(false);
-//   const scrollTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+  // const scrollTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Initialize refs array
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, items.length);
   }, [items.length]);
+
+  // Update color when activeIndex changes
+  useEffect(() => {
+    if (activeIndex !== null) {
+      setActiveColorIndex(activeIndex % colors.length);
+    }
+  }, [activeIndex, colors.length]);
 
   // Enhanced scroll handler for sequential reveal
   useEffect(() => {
@@ -52,7 +59,6 @@ const ScrollAccordion = ({
         currentIndex !== activeIndex
       ) {
         setActiveIndex(currentIndex);
-        setActiveColorIndex(currentIndex % colors.length);
 
         // Add fade-up class to previous items
         itemRefs.current.forEach((ref, index) => {
@@ -73,7 +79,7 @@ const ScrollAccordion = ({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [activeIndex, items.length, colors.length]);
+  }, [activeIndex, items.length]);
 
   // Enhanced manual toggle function with focus management
   const toggleItem = (index: number) => {
@@ -188,7 +194,8 @@ const ScrollAccordion = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 50vh 0;
+          min-height: 100vh;
+          padding: 2rem 0;
         }
         .accordion-item {
           transition: transform 0.5s ease-out, opacity 0.5s ease-out;
@@ -204,14 +211,13 @@ const ScrollAccordion = ({
       `}</style>
       {/* Dynamic Background */}
       <motion.div
-        className={`absolute h-full w-full bg-gradient-to-br ${colors[activeColorIndex]} -z-10`}
+        className={`fixed inset-0 bg-gradient-to-br ${colors[activeColorIndex]} -z-10`}
         key={activeColorIndex}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <div className="relative z-10 max-w-4xl mx-auto px-6 py-56">
         <motion.div className="space-y-6" initial="hidden" animate="visible">
           {items.map((item, index) => (
             <motion.div
@@ -287,51 +293,36 @@ const ScrollAccordion = ({
 const ExampleAccordion = () => {
   const sampleItems = [
     {
-      question: "What makes this accordion special?",
+      question: "What makes it unique?",
       answer:
-        "This accordion opens automatically as you scroll, with each item triggering a beautiful background color transition. It combines smooth animations with intelligent scroll detection.",
+        "It auto-opens on scroll with smooth background transitions, creating an engaging, animated experience.",
     },
     {
-      question: "How does the scroll detection work?",
+      question: "How does it work?",
       answer:
-        "The component uses intersection observers and scroll events to detect when each accordion item reaches the center of the viewport, automatically opening it with smooth animations.",
+        "It uses Intersection Observer to detect scroll position and trigger animations as items reach the center.",
     },
     {
-      question: "Can I customize the colors?",
+      question: "Can I customize it?",
       answer:
-        "Absolutely! You can pass a custom colors array with any Tailwind gradient classes. The component cycles through them as different accordion items become active.",
+        "Yes — pass in your own questions and answers, and set custom gradient colors for background transitions.",
     },
     {
-      question: "What about performance?",
+      question: "Is it responsive?",
       answer:
-        "The component is optimized with proper event handling, efficient re-renders, and smooth animations using Framer Motion. It handles scroll events responsively without lag.",
-    },
-    {
-      question: "Is it mobile-friendly?",
-      answer:
-        "Yes! The accordion is fully responsive with touch-friendly interactions, proper spacing on mobile devices, and optimized animations that work well on all screen sizes.",
-    },
-    {
-      question: "How do I integrate it?",
-      answer:
-        "Simply import the component, pass your items array with question/answer objects, and optionally customize colors, scroll offset, and animation timing through props.",
-    },
-    {
-      question: "What dependencies does it need?",
-      answer:
-        "The component requires Framer Motion for animations, Lucide React for icons, and Tailwind CSS for styling. It's built for Next.js but works with any React setup.",
-    },
-    {
-      question: "Can items be opened manually?",
-      answer:
-        "Yes! While the component auto-opens items on scroll, users can also click on any accordion header to manually toggle it open or closed at any time.",
+        "Absolutely. It’s touch-friendly, mobile-optimized, and buttery-smooth across all screen sizes.",
     },
   ];
 
   return (
     <div className="relative">
-      <div className="h-screen w-full overflow-auto scrollbar-hide scroll-smooth relative">
+      <div className="h-screen w-full overflow-auto scrollbar-hide scroll-smooth relative bg-transparent">
         <div className="mask-fade blur-fade">
+          <div className="flex flex-col items-center justify-center pt-8">
+            <p className="text-white/90 text-xl font-medium mb- text-center">
+              Click and read through with focus
+            </p>
+          </div>
           <div className="accordion-container">
             <ScrollAccordion items={sampleItems} />
           </div>

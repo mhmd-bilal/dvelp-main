@@ -1,8 +1,9 @@
 import blurryBlobTSX from "../components/docs/blurry-blobs.mdx"
 import halftoneBackground from "../components/docs/halftone-bg.mdx";
 import glowButton from "../components/docs/glow-button.mdx"
-import customCursor from "../components/docs/custom-cursor.mdx"
+// import customCursor from "../components/docs/custom-cursor.mdx"
 import sentenceForm from "../components/docs/sentence-form.mdx"
+import scrollAccordion from "../components/docs/scroll-accordion.mdx"
 
 export interface CodeSnippet {
   language: string; // e.g., 'tsx', 'js', 'html'
@@ -13,7 +14,7 @@ export interface ComponentDoc {
   id: string;
   name: string;
   description: string;
-  category: 'backgrounds' | 'buttons' | 'cursor interactive' | 'inputs' | 'code';
+  category: 'backgrounds' | 'buttons' | 'cursor interactive' | 'inputs' | 'code' | 'disclosure';
   usage?: CodeSnippet;
   code?: CodeSnippet;
   active:boolean
@@ -24,7 +25,7 @@ export const componentsData: ComponentDoc[] = [
   {
     id: 'blurry-blobs',
     name: 'Blurry Blobs',
-    description: 'A beautiful animated background component that creates organic, flowing blob shapes with customizable colors and opacity.',
+    description: 'Create mesmerizing, organic blob animations that flow and morph with mouse interactions. Perfect for adding depth and movement to your UI.',
     category: 'backgrounds',
     active:true,
     code: {
@@ -33,7 +34,7 @@ export const componentsData: ComponentDoc[] = [
     },
     usage: {
       language: 'tsx',
-      content: `<BlurryBlobBackground
+      content: `<BlurryBlobs
   className="custom-blob-bg"
   colors={['#ff6f61', '#ffb347', '#6b5b95']} // warm, playful palette
   enableMouseInteraction={true}
@@ -44,7 +45,7 @@ export const componentsData: ComponentDoc[] = [
   {
     id: 'halftone-bg',
     name: 'Halftone Background',
-    description: 'Animated halftone background with smooth, dynamic dots that react to mouse movement. Customizable colors and opacity.',
+    description: 'Transform your UI with dynamic halftone dots that dance and react to mouse movement. A modern take on the classic print technique.',
     category: 'backgrounds',
     active:true,
     code: {
@@ -67,7 +68,7 @@ export const componentsData: ComponentDoc[] = [
   {
     id: 'glow-button',
     name: 'Glow Button',
-    description: 'A customizable button component with a beautiful glow effect.',
+    description: 'Elevate your CTAs with buttons that radiate energy. Multiple variants with stunning glow effects that make your interface pop.',
     category: 'buttons',
     active:true,
     code: {
@@ -87,7 +88,7 @@ export const componentsData: ComponentDoc[] = [
   id: 'sentence-form',
   name: 'Sentence Form',
   active: true,
-  description: 'A form component that creates a natural language sentence from user selections.',
+  description: 'Transform traditional forms into natural conversations. Let users fill out forms by completing sentences, making data collection feel more human.',
   category: 'inputs',
   code: {
     language: 'tsx',
@@ -104,35 +105,81 @@ export const componentsData: ComponentDoc[] = [
   submitText="Book Event"
 />`,
   },
-},
+},{
+  id: 'scroll-accordion',
+  name: 'Scroll Accordion',
+  active: true,
+  description: 'An immersive accordion that reveals content as you scroll, with smooth color transitions and elegant animations. Perfect for storytelling and documentation. Click on the questions to trigger the scroll.',
+  category: 'disclosure',
+  code: {
+    language: 'tsx',
+    content: scrollAccordion,
+  },
+  usage: {
+    language: 'tsx',
+    content: `const sampleItems = [
   {
-    id: 'custom-cursor',
-    name: 'Custom Cursor',
-    description: 'A customizable cursor component that replaces the default cursor with an interactive, animated version.',
-    category: 'cursor interactive',
-    active:false,
-     code: {
-      language: 'tsx',
-      content: customCursor,
-    },    
-    usage: {
-      language: 'tsx',
-      content: `<HoverCard
-  variant="dark"
-  className="p-6"
-  cursorIcon={MousePointer2}
-  labelText="Your custom text!"
->
-  <div>Your content here</div>
-</HoverCard>`
-    },
+    question: "What makes it unique?",
+    answer:
+      "It auto-opens on scroll with smooth background transitions, creating an engaging, animated experience.",
   },
   {
-    id: 'scroll-select',
-    name: 'Scroll Select',
-    active:false,
-    description: 'A scrollable selection component that allows users to choose from a list of options with smooth animations.',
-    category: 'inputs'
-  }
+    question: "How does it work?",
+    answer:
+      "It uses Intersection Observer to detect scroll position and trigger animations as items reach the center.",
+  },
+  {
+    question: "Can I customize it?",
+    answer:
+      "Yes — pass in your own questions and answers, and set custom gradient colors for background transitions.",
+  },
+  {
+    question: "Is it responsive?",
+    answer:
+      "Absolutely. It's touch-friendly, mobile-optimized, and buttery-smooth across all screen sizes.",
+  },
+];
+
+<div className="mask-fade blur-fade">
+  <div className="flex flex-col items-center justify-center pt-8">
+    <p className="text-white/90 text-xl font-medium mb- text-center">
+      Click and read through with focus
+    </p>
+  </div>
+  <div className="accordion-container">
+    <ScrollAccordion items={sampleItems} />
+  </div>
+</div>`,
+  },
+},
+//   {
+//     id: 'custom-cursor',
+//     name: 'Custom Cursor',
+//     description: 'A customizable cursor component that replaces the default cursor with an interactive, animated version.',
+//     category: 'cursor interactive',
+//     active:false,
+//      code: {
+//       language: 'tsx',
+//       content: customCursor,
+//     },    
+//     usage: {
+//       language: 'tsx',
+//       content: `<HoverCard
+//   variant="dark"
+//   className="p-6"
+//   cursorIcon={MousePointer2}
+//   labelText="Your custom text!"
+// >
+//   <div>Your content here</div>
+// </HoverCard>`
+//     },
+//   },
+  // {
+  //   id: 'scroll-select',
+  //   name: 'Scroll Select',
+  //   active:false,
+  //   description: 'A scrollable selection component that allows users to choose from a list of options with smooth animations.',
+  //   category: 'inputs'
+  // }
 
 ]; 
