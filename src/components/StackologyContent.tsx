@@ -110,7 +110,7 @@ export default function StackologyContent({
               <Sparkles className="w-4 h-4 text-primary" />
             </motion.div>
             <span className="text-sm text-muted-foreground">
-              AI-Powered Recommendations
+              AI-Curated Recommendations
             </span>
           </motion.div>
         </div>

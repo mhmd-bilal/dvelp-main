@@ -14,6 +14,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import { Github } from "lucide-react";
 
 export default function Home() {
   const [selected, setSelected] = useState("introduction");
